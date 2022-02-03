@@ -54,7 +54,11 @@ fun NotesList(
 
         val results = notes.collectAsState(initial = emptyList()).value
         LazyColumn {
-            items(items = results) { result ->
+            items(items = results,
+                key = { note ->
+                    // Return a stable + unique key for the item
+                    note.noteId
+                }) { result ->
                 Card {
                     val dismissState = rememberDismissState()
 
