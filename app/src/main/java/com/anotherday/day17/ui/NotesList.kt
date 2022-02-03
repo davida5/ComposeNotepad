@@ -56,13 +56,10 @@ fun NotesList(
         LazyColumn {
             items(items = results) { result ->
                 Card {
-                    var unread by remember { mutableStateOf(false) }
-                    val dismissState = rememberDismissState(DismissValue.Default
-//                        confirmStateChange = {
-//                            if (it == DismissValue.DismissedToEnd) unread = !unread
-//                            it != DismissValue.DismissedToEnd
-//                        }
-                    )
+                    val dismissState = rememberDismissState()
+
+                    //for some reason the dismmissState is EndToStart for all the
+                    //items after the deleted item, even adding new items becomes impossible
                     if (dismissState.isDismissed(EndToStart)) {
                         val scope = rememberCoroutineScope()
                         scope.launch {
