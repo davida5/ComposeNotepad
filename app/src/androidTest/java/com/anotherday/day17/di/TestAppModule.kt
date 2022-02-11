@@ -1,5 +1,6 @@
 package com.anotherday.day17.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.anotherday.day17.data.NoteDatabase
@@ -14,15 +15,14 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object AppModule {
+internal object TestAppModule {
 
     @Provides
-    fun provideNoteDatabase(@ApplicationContext applicationContext: Context): NoteDatabase {
+    fun provideNoteDatabase(app: Application): NoteDatabase {
         return Room.inMemoryDatabaseBuilder(
-            applicationContext,
-            NoteDatabase::
-            class.java
-        ).build()
+            app,
+            NoteDatabase::class.java
+        ).allowMainThreadQueries().build()
     }
 
     @Provides

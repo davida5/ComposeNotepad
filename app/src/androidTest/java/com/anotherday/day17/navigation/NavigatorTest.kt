@@ -4,26 +4,33 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onRoot
-import androidx.compose.ui.test.printToLog
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.anotherday.day17.MainActivity
+import com.anotherday.day17.data.Note
+import com.anotherday.day17.di.AppModule
+import com.anotherday.day17.repository.NoteRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
+import javax.inject.Inject
 
-@RunWith(AndroidJUnit4::class)
+@ExperimentalMaterialApi
 @HiltAndroidTest
+@UninstallModules(AppModule::class)
 class NavigatorTest {
+
+    @Inject
+    lateinit var noteRepo: NoteRepository
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
+//    InstantTaskExecutorRule
 
     @get:Rule
     val composeRule = createAndroidComposeRule<MainActivity>()
@@ -33,19 +40,31 @@ class NavigatorTest {
     @OptIn(ExperimentalMaterialApi::class)
     @Before
     fun setupNavigatorTest() {
-        composeRule.setContent {
-            navController = rememberNavController()
-            Navigator(navHostController = navController)
+        hiltRule.inject()
+        runBlocking {
+            noteRepo.insert(Note(0, "asdfasdf", null, null))
+            noteRepo.insert(Note(0, "3asdfa sdfasdfsadfasdfasdf", null, null))
+            for (i in 0..100000){
+                noteRepo.insert(Note(0, "aasdfasdfasdfasdfs4dfasdf", null, null))
+            }
+
+
+            composeRule.setContent {
+                navController = rememberNavController()
+                Navigator(navHostController = navController)
+            }
         }
     }
 
     @Test
     fun testNavigationDefault() {
-        composeRule.onRoot().printToLog("currentLabelExists")
+//        composeRule.onRoot().printToLog("currentLabelExists")
 
-        composeRule
-            .onNodeWithContentDescription("NotesList")
-            .assertIsDisplayed()
+        runBlocking {
+            composeRule
+                .onNodeWithContentDescription("NotesList")
+                .assertIsDisplayed()
+        }
     }
 
 }

@@ -15,12 +15,12 @@ interface NoteDao {
         "UPDATE ${Note.dbName} SET ${Note.Columns.content}=(:content) " +
                 "where ${Note.Columns.noteId} = (:id)"
     )
-    fun updateNoteById(id: Int, content: String?): Int
+    suspend fun updateNoteById(id: Int, content: String?): Int
 
     @Insert
-    fun insert(note: Note)
+    suspend fun insert(note: Note)
 
     @Delete
-    fun delete(note: Note)
+    suspend fun delete(note: Note)
 
 }

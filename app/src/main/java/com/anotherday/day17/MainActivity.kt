@@ -16,9 +16,10 @@ import com.anotherday.day17.navigation.Navigator
 import com.anotherday.day17.ui.theme.Day17Theme
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @ExperimentalMaterialApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
