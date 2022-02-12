@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 
 @ExperimentalMaterialApi
 @Composable
-fun Navigator(navHostController: NavHostController) {
+fun NoteApp(navHostController: NavHostController) {
     NavHost(navController = navHostController, startDestination = NavDestinations.NotesList.route) {
         notesListRoute(navHostController)
         editNoteRoute(navHostController)

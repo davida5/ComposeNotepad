@@ -15,10 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -30,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import com.anotherday.day17.data.Note
 import com.anotherday.day17.navigation.NavDestinations
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
@@ -54,8 +53,7 @@ fun NotesList(
             }
         }
     ) {
-
-        val results = notes.collectAsState(initial = emptyList()).value
+        val results by notes.collectAsState(initial = emptyList())
         LazyColumn {
             items(items = results,
                 key = { note ->
@@ -69,7 +67,7 @@ fun NotesList(
                     //items after the deleted item, even adding new items becomes impossible
                     if (dismissState.isDismissed(EndToStart)) {
                         val scope = rememberCoroutineScope()
-                        scope.launch {
+                        LaunchedEffect(true) {
                             dismissed(result)
                         }
                     }
@@ -158,7 +156,6 @@ fun NotesListPreview() {
         addNoteClicked = {},
         editNoteClicked = {},
         dismissed = {},
-
         notes = flowOf(
             listOf(
                 Note(1, "asdfasdfasdf", null, null),

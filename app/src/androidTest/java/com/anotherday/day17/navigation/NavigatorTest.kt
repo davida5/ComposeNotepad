@@ -18,6 +18,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToLog
+import com.anotherday.day17.data.NoteDatabase
+import com.anotherday.day17.repository.NoteRepositoryImpl
+import org.junit.After
 
 @ExperimentalMaterialApi
 @HiltAndroidTest
@@ -25,12 +31,14 @@ import javax.inject.Inject
 class NavigatorTest {
 
     @Inject
-    lateinit var noteRepo: NoteRepository
+    lateinit var noteDatabase: NoteDatabase
+    lateinit var noteRepo: NoteRepositoryImpl
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-//    InstantTaskExecutorRule
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     val composeRule = createAndroidComposeRule<MainActivity>()
@@ -41,24 +49,32 @@ class NavigatorTest {
     @Before
     fun setupNavigatorTest() {
         hiltRule.inject()
+        noteRepo = NoteRepositoryImpl(noteDatabase.noteDao())
+
+        val note1 = Note(0, "asdfasdf", null, null)
         runBlocking {
-            noteRepo.insert(Note(0, "asdfasdf", null, null))
-            noteRepo.insert(Note(0, "3asdfa sdfasdfsadfasdfasdf", null, null))
-            for (i in 0..100000){
-                noteRepo.insert(Note(0, "aasdfasdfasdfasdfs4dfasdf", null, null))
-            }
-
-
             composeRule.setContent {
                 navController = rememberNavController()
-                Navigator(navHostController = navController)
+                NoteApp(navHostController = navController)
             }
+            noteRepo.insert(note1)
+            noteRepo.insert(Note(0, "3asdfa sdfasdfsadfasdfasdf", null, null))
+            noteRepo.insert(Note(0, "aasdfasdfasdfasdfs4dfasdf", null, null))
+
+            assert(noteRepo.getAllNotesS()[0].content.equals(note1.content))
+
         }
+
+    }
+
+    @After
+    fun teardown() {
+        noteDatabase.close()
     }
 
     @Test
     fun testNavigationDefault() {
-//        composeRule.onRoot().printToLog("currentLabelExists")
+        composeRule.onRoot().printToLog("currentLabelExists")
 
         runBlocking {
             composeRule
@@ -66,5 +82,6 @@ class NavigatorTest {
                 .assertIsDisplayed()
         }
     }
+
 
 }
