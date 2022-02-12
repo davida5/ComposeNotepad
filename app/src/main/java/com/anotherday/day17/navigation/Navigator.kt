@@ -1,7 +1,7 @@
 package com.anotherday.day17.navigation
 
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 
@@ -13,7 +13,6 @@ fun NoteApp(navHostController: NavHostController) {
         editNoteRoute(navHostController)
     }
 }
-
 
 enum class NavDestinations(val route: String) {
     NotesList("NotesList"),

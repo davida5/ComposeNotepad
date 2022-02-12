@@ -4,12 +4,16 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults.textFieldColors
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.anotherday.day17.data.Note
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @Composable
@@ -20,13 +24,12 @@ fun EditNote(
 ) {
     var noteContent by remember { mutableStateOf(noteIn?.content ?: "") }
 
-
     TextField(
         colors = textFieldColors(backgroundColor = Color.White),
         modifier = Modifier.fillMaxSize(),
         value = noteContent,
-        onValueChange = { noteContent = it })
-
+        onValueChange = { noteContent = it }
+    )
 
     val scope = rememberCoroutineScope()
     BackHandler(enabled = true) {
@@ -41,8 +44,6 @@ fun EditNote(
             )
             backPressed()
         }
-
-
     }
 }
 

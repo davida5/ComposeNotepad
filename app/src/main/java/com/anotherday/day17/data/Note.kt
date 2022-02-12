@@ -5,8 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
-
-import java.util.*
+import java.util.Date
 
 @Parcelize
 @Entity(tableName = Note.dbName)
@@ -24,9 +23,9 @@ data class Note(
     @ColumnInfo(name = Columns.createDate)
     val createDate: Date?,
 
-    ) : Parcelable {
+) : Parcelable {
     companion object {
-        const val dbName = "note" //🤪
+        const val dbName = "note" // 🤪
     }
 
     class Columns {
@@ -37,6 +36,4 @@ data class Note(
             const val createDate = "create_date"
         }
     }
-
 }
-

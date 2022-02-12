@@ -1,6 +1,9 @@
 package com.anotherday.day17.data
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,7 +19,7 @@ interface NoteDao {
 
     @Query(
         "UPDATE ${Note.dbName} SET ${Note.Columns.content}=(:content) " +
-                "where ${Note.Columns.noteId} = (:id)"
+            "where ${Note.Columns.noteId} = (:id)"
     )
     suspend fun updateNoteById(id: Int, content: String?): Int
 
@@ -25,5 +28,4 @@ interface NoteDao {
 
     @Delete
     suspend fun delete(note: Note)
-
 }

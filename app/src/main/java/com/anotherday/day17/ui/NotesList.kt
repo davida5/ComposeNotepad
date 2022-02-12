@@ -5,17 +5,37 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Card
 import androidx.compose.material.DismissDirection.EndToStart
 import androidx.compose.material.DismissDirection.StartToEnd
+import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.Icon
+import androidx.compose.material.ListItem
+import androidx.compose.material.Scaffold
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.runtime.*
+import androidx.compose.material.rememberDismissState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -27,11 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.anotherday.day17.data.Note
 import com.anotherday.day17.navigation.NavDestinations
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
-
 
 @ExperimentalMaterialApi
 @Composable
@@ -44,8 +60,7 @@ fun NotesList(
     Scaffold(
         Modifier.semantics { contentDescription = NavDestinations.NotesList.route },
         topBar = {
-            TopAppBar(
-                title = { Text("Notably") })
+            TopAppBar(title = { Text("Notably") })
         },
         floatingActionButton = {
             FloatingActionButton(onClick = addNoteClicked) {
@@ -55,16 +70,18 @@ fun NotesList(
     ) {
         val results by notes.collectAsState(initial = emptyList())
         LazyColumn {
-            items(items = results,
+            items(
+                items = results,
                 key = { note ->
                     // Return a stable + unique key for the item
                     note.noteId
-                }) { result ->
+                }
+            ) { result ->
                 Card {
                     val dismissState = rememberDismissState()
 
-                    //for some reason the dismmissState is EndToStart for all the
-                    //items after the deleted item, even adding new items becomes impossible
+                    // for some reason the dismmissState is EndToStart for all the
+                    // items after the deleted item, even adding new items becomes impossible
                     if (dismissState.isDismissed(EndToStart)) {
                         val scope = rememberCoroutineScope()
                         LaunchedEffect(true) {
@@ -135,12 +152,9 @@ fun NotesList(
                                     },
                                     secondaryText = { Text("Swipe me left or right!") }
                                 )
-
                             }
                         }
                     )
-
-
                 }
                 Spacer(modifier = Modifier.size(4.dp))
             }

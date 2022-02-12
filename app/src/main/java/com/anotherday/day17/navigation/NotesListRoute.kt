@@ -27,7 +27,6 @@ fun NavGraphBuilder.notesListRoute(navHostController: NavHostController) {
             },
             dismissed = { note ->
                 vm.deleteNote(note)
-
             },
             vm.getNotes()
         )

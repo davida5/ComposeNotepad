@@ -2,8 +2,8 @@ package com.anotherday.day17.di
 
 import android.app.Application
 import android.content.Context
-import dagger.hilt.android.testing.HiltTestApplication
 import androidx.test.runner.AndroidJUnitRunner
+import dagger.hilt.android.testing.HiltTestApplication
 
 class CustomTestRunner : AndroidJUnitRunner() {
     override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {

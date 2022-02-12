@@ -11,7 +11,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 internal object AppModule {
@@ -21,7 +20,8 @@ internal object AppModule {
         return Room.databaseBuilder(
             applicationContext,
             NoteDatabase::
-            class.java, NoteDatabase.DB_NAME
+            class.java,
+            NoteDatabase.DB_NAME
         ).build()
     }
 
@@ -29,6 +29,4 @@ internal object AppModule {
     fun provideNoteRepository(noteDatabase: NoteDatabase): NoteRepository {
         return NoteRepositoryImpl(noteDatabase.noteDao())
     }
-
-
 }

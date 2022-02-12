@@ -2,12 +2,10 @@ package com.anotherday.day17.ui
 
 import androidx.lifecycle.ViewModel
 import com.anotherday.day17.data.Note
-import com.anotherday.day17.data.NoteDatabase
 import com.anotherday.day17.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -20,7 +18,7 @@ class NoteViewModel
                 if (!note.content.isNullOrEmpty()) {
                     noteRepository.insert(note)
                 } else {
-                    //ignore note
+                    // ignore note
                 }
             } else {
                 noteRepository.updateNoteById(note.noteId, note.content)
