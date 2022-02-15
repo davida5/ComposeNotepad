@@ -83,7 +83,6 @@ fun NotesList(
                     // for some reason the dismmissState is EndToStart for all the
                     // items after the deleted item, even adding new items becomes impossible
                     if (dismissState.isDismissed(EndToStart)) {
-                        val scope = rememberCoroutineScope()
                         LaunchedEffect(true) {
                             dismissed(result)
                         }

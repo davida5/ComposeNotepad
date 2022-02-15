@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @MediumTest
@@ -17,6 +18,7 @@ import dagger.hilt.components.SingletonComponent
 internal object TestAppModule {
 
     @Provides
+    @Singleton
     fun provideNoteDatabase(app: Application): NoteDatabase {
         return Room.inMemoryDatabaseBuilder(
             app,
