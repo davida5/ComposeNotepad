@@ -1,4 +1,4 @@
-package com.anotherday.day17.di
+package com.anotherday.day17
 
 import android.app.Application
 import android.content.Context

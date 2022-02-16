@@ -11,17 +11,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.anotherday.day17.MainActivity
 import com.anotherday.day17.data.Note
-import com.anotherday.day17.data.NoteDatabase
 import com.anotherday.day17.di.AppModule
-import com.anotherday.day17.repository.NoteRepositoryImpl
+import com.anotherday.day17.repository.NoteRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -33,8 +30,7 @@ import javax.inject.Inject
 class EndToEndTest1 {
 
     @Inject
-    lateinit var noteDatabase: NoteDatabase
-    lateinit var noteRepo: NoteRepositoryImpl
+    lateinit var noteRepo: NoteRepository
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -50,7 +46,6 @@ class EndToEndTest1 {
     @Before
     fun setupNavigatorTest() {
         hiltRule.inject()
-        noteRepo = NoteRepositoryImpl(noteDatabase.noteDao())
 
         val note1 = Note(0, "asdfasdf", null, null)
 
@@ -64,17 +59,12 @@ class EndToEndTest1 {
 
             composeRule.setContent {
                 navController = rememberNavController()
-                NoteApp(navHostController = navController)
+                Navigator(navHostController = navController)
             }
 
 
 
         }
-    }
-
-    @After
-    fun teardown() {
-        noteDatabase.close()
     }
 
     @Test

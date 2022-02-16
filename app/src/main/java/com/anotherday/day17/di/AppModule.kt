@@ -10,12 +10,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object AppModule {
 
     @Provides
+    @Singleton
     fun provideNoteDatabase(@ApplicationContext applicationContext: Context): NoteDatabase {
         return Room.databaseBuilder(
             applicationContext,

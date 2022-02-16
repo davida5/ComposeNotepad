@@ -15,7 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "com.anotherday.day17.di.CustomTestRunner"
+        testInstrumentationRunner "com.anotherday.day17.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary true
         }

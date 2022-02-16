@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.navigation.compose.rememberNavController
-import com.anotherday.day17.navigation.NoteApp
+import com.anotherday.day17.navigation.Navigator
 import com.anotherday.day17.ui.theme.Day17Theme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Day17Theme {
                 val navHostController = rememberNavController()
-                NoteApp(navHostController)
+                Navigator(navHostController)
             }
         }
     }
