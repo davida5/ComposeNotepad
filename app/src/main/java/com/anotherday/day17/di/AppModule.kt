@@ -32,5 +32,3 @@ internal object AppModule {
         return NoteRepositoryImpl(noteDatabase.noteDao())
     }
 }
-
-

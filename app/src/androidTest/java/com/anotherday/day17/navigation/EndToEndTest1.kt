@@ -61,15 +61,12 @@ class EndToEndTest1 {
                 navController = rememberNavController()
                 Navigator(navHostController = navController)
             }
-
-
-
         }
     }
 
     @Test
     fun testNavigationDefault() {
-        //here the composable contains an empty list
+        // here the composable contains an empty list
         composeRule.onRoot().printToLog("currentLabelExists")
 
         runBlocking {

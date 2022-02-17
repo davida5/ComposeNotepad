@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.anotherday.day17.navigation.Navigator
 import com.anotherday.day17.ui.theme.Day17Theme
