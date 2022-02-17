@@ -12,8 +12,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.anotherday.day17.data.Note
+import com.anotherday.day17.navigation.NavDestinations
 import kotlinx.coroutines.launch
 
 @Composable
@@ -26,7 +29,9 @@ fun EditNote(
 
     TextField(
         colors = textFieldColors(backgroundColor = Color.White),
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .semantics { contentDescription = NavDestinations.EditNote.route },
         value = noteContent,
         onValueChange = { noteContent = it }
     )
