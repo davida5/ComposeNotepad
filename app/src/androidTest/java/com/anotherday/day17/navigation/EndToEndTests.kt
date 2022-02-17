@@ -5,10 +5,13 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.printToLog
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.test.espresso.Espresso
 import com.anotherday.day17.MainActivity
 import com.anotherday.day17.data.Note
 import com.anotherday.day17.di.AppModule
@@ -24,10 +27,11 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
+
 @ExperimentalMaterialApi
 @HiltAndroidTest
 @UninstallModules(AppModule::class)
-class EndToEndTest1 {
+class EndToEndTests {
 
     @Inject
     lateinit var noteRepo: NoteRepository
@@ -65,14 +69,27 @@ class EndToEndTest1 {
     }
 
     @Test
-    fun testNavigationDefault() {
+    fun testClickEditNote() {
         // here the composable contains an empty list
         composeRule.onRoot().printToLog("currentLabelExists")
+        composeRule.onNodeWithText("asdfasdf").performClick()
+        composeRule
+            .onNodeWithContentDescription("EditNote")
+            .assertIsDisplayed()
+    }
 
-        runBlocking {
-            composeRule
-                .onNodeWithContentDescription("NotesList")
-                .assertIsDisplayed()
-        }
+    @Test
+    fun testClickAddNoteAndPressBack() {
+        // here the composable contains an empty list
+        composeRule.onNodeWithContentDescription("Add").performClick()
+        composeRule
+            .onNodeWithContentDescription("EditNote")
+            .assertIsDisplayed()
+        composeRule.onRoot().printToLog("currentLabelExists1")
+        Espresso.pressBack()
+        composeRule.onRoot().printToLog("currentLabelExists")
+        composeRule
+            .onNodeWithContentDescription("NotesList")
+            .assertIsDisplayed()
     }
 }
