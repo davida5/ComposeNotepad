@@ -1,2 +1,2 @@
 # ComposeNotepad
-Working on a simple Notepad app using new Compose API
+A simple Notepad app using new Compose API
